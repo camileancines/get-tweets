@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		C6C09CA927456131006B9878 /* Tweets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C09CA827456131006B9878 /* Tweets.swift */; };
 		C6C09CAB27456626006B9878 /* TweetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C09CAA27456626006B9878 /* TweetsViewModel.swift */; };
+		C6C09CAE27458B39006B9878 /* UITableViewCell + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C09CAD27458B39006B9878 /* UITableViewCell + Ext.swift */; };
 		C6C796C3274421E700F4BFF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C796C2274421E700F4BFF8 /* AppDelegate.swift */; };
 		C6C796CC274421EA00F4BFF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6C796CB274421EA00F4BFF8 /* Assets.xcassets */; };
 		C6C796CF274421EA00F4BFF8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6C796CD274421EA00F4BFF8 /* LaunchScreen.storyboard */; };
 		C6C796DA274421EA00F4BFF8 /* FeelingMeterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C796D9274421EA00F4BFF8 /* FeelingMeterTests.swift */; };
 		C6C796E4274421EA00F4BFF8 /* FeelingMeterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C796E3274421EA00F4BFF8 /* FeelingMeterUITests.swift */; };
 		C6C796E6274421EA00F4BFF8 /* FeelingMeterUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C796E5274421EA00F4BFF8 /* FeelingMeterUITestsLaunchTests.swift */; };
-		C6C796FF27445B9000F4BFF8 /* TweetsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C796FE27445B9000F4BFF8 /* TweetsTableViewController.swift */; };
+		C6C796FF27445B9000F4BFF8 /* TweetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C796FE27445B9000F4BFF8 /* TweetsViewController.swift */; };
 		C6C7970127445BCD00F4BFF8 /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C7970027445BCD00F4BFF8 /* TweetTableViewCell.swift */; };
 		C6C79703274463B000F4BFF8 /* TweetsNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C79702274463B000F4BFF8 /* TweetsNetwork.swift */; };
 /* End PBXBuildFile section */
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		C6C09CA827456131006B9878 /* Tweets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweets.swift; sourceTree = "<group>"; };
 		C6C09CAA27456626006B9878 /* TweetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetsViewModel.swift; sourceTree = "<group>"; };
+		C6C09CAD27458B39006B9878 /* UITableViewCell + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell + Ext.swift"; sourceTree = "<group>"; };
 		C6C796BF274421E700F4BFF8 /* FeelingMeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeelingMeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6C796C2274421E700F4BFF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6C796CB274421EA00F4BFF8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -50,7 +52,7 @@
 		C6C796DF274421EA00F4BFF8 /* FeelingMeterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeelingMeterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6C796E3274421EA00F4BFF8 /* FeelingMeterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeelingMeterUITests.swift; sourceTree = "<group>"; };
 		C6C796E5274421EA00F4BFF8 /* FeelingMeterUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeelingMeterUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		C6C796FE27445B9000F4BFF8 /* TweetsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetsTableViewController.swift; sourceTree = "<group>"; };
+		C6C796FE27445B9000F4BFF8 /* TweetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetsViewController.swift; sourceTree = "<group>"; };
 		C6C7970027445BCD00F4BFF8 /* TweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		C6C79702274463B000F4BFF8 /* TweetsNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetsNetwork.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,6 +82,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C6C09CAC27458B20006B9878 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C6C09CAD27458B39006B9878 /* UITableViewCell + Ext.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		C6C796B6274421E700F4BFF8 = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +113,7 @@
 		C6C796C1274421E700F4BFF8 /* FeelingMeter */ = {
 			isa = PBXGroup;
 			children = (
+				C6C09CAC27458B20006B9878 /* Extension */,
 				C6C796F62744342A00F4BFF8 /* Network */,
 				C6C796F2274433AA00F4BFF8 /* Model */,
 				C6C796F52744341100F4BFF8 /* ViewModel */,
@@ -140,7 +151,7 @@
 		C6C796F4274433FD00F4BFF8 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				C6C796FE27445B9000F4BFF8 /* TweetsTableViewController.swift */,
+				C6C796FE27445B9000F4BFF8 /* TweetsViewController.swift */,
 				C6C7970027445BCD00F4BFF8 /* TweetTableViewCell.swift */,
 			);
 			path = ViewController;
@@ -306,7 +317,8 @@
 				C6C09CAB27456626006B9878 /* TweetsViewModel.swift in Sources */,
 				C6C79703274463B000F4BFF8 /* TweetsNetwork.swift in Sources */,
 				C6C796C3274421E700F4BFF8 /* AppDelegate.swift in Sources */,
-				C6C796FF27445B9000F4BFF8 /* TweetsTableViewController.swift in Sources */,
+				C6C796FF27445B9000F4BFF8 /* TweetsViewController.swift in Sources */,
+				C6C09CAE27458B39006B9878 /* UITableViewCell + Ext.swift in Sources */,
 				C6C09CA927456131006B9878 /* Tweets.swift in Sources */,
 				C6C7970127445BCD00F4BFF8 /* TweetTableViewCell.swift in Sources */,
 			);
@@ -482,9 +494,9 @@
 				DEVELOPMENT_TEAM = WXA8WKRKZW;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FeelingMeter/Resources/Info.plist;
+				INFOPLIST_KEY_NSMainNibFile = TweetsViewController;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -510,9 +522,9 @@
 				DEVELOPMENT_TEAM = WXA8WKRKZW;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FeelingMeter/Resources/Info.plist;
+				INFOPLIST_KEY_NSMainNibFile = TweetsViewController;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
