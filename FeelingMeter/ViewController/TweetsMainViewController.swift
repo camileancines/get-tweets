@@ -22,7 +22,6 @@ final class TweetsMainViewController: UIViewController {
         scrollV.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         scrollV.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         scrollV.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
         return scrollV
     }()
     
@@ -57,8 +56,21 @@ final class TweetsMainViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setComponentView()
         setupUI()
+    }
+    
+    func fetchUserId() {
+        viewModel.fetchUserId { [weak self] result in
+            guard let self = self else { return }
+        }
+        
+        switch result {
+        case .success():
+            setupTweets()
+        }
+        
+        case .failure():
+            showAlertView()
     }
     
     func setupTweets() {
@@ -71,10 +83,6 @@ final class TweetsMainViewController: UIViewController {
     }
     
     //MARK: - View Setup
-    func setComponentView() {
-        setupTweets()
-    }
-    
     func setupUI() {
         view.backgroundColor = UIColor(red: 0.965, green: 0.965, blue: 0.965, alpha: 1)
         
@@ -87,5 +95,20 @@ final class TweetsMainViewController: UIViewController {
         for tweetView in tweetsView {
             stackView.addArrangedSubview(tweetView)
         }
+    }
+}
+
+//MARK: - AlertView's Method
+extension TweetsMainViewController {
+    func showAlertView() {
+        let alert = UIAlertController(title: "Ops!", message: "Não foi possível carregar os tuítes", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Tentar novamente", style: .default, handler: { action in
+            self.fetchUserId()
+        }))
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: { action in
+            self.navigationController?.popViewController(animated: true)
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
     }
 }

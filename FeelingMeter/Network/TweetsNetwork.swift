@@ -7,16 +7,8 @@
 
 import Foundation
 
-protocol RequestUserDelegate: AnyObject {
-    func didReceiveUserData(username: String)
-}
-
 final class TweetsNetwork {
-    
-    var userTweets: [Tweet] = []
-    weak var delegate: RequestUserDelegate?
-    
-    func requestUserId(username: String){
+    func requestUserId(username: String, completion: @escaping (String) -> Void) {
         guard let url = URL(string: "https://api.twitter.com/2/users/by/username/\(username)") else { return }
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
@@ -27,7 +19,7 @@ final class TweetsNetwork {
                     let decoder = JSONDecoder()
                     guard let response = try?
                            decoder.decode(User.self, from: data) else { return }
-                    self.delegate?.didReceiveUserData(username: response.id)
+                    completion(response.id)
                 }
             }
         }

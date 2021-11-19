@@ -10,9 +10,23 @@ import Foundation
 final class TweetsViewModel {
     
     private(set) var tweets: TweetsResponse?
-    fileprivate let username: String = ""
-    let network: TweetsNetwork = TweetsNetwork()
-
+    fileprivate let network: TweetsNetwork = TweetsNetwork()
+    var username: String = ""
+    
+    func fetchUserId(completion: @escaping ((Swift.Result<String,Error>)) -> Void) {
+        network.requestUserId(username: username) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let username):
+                self.username = username
+                
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
 
 extension TweetsViewModel {
