@@ -5,31 +5,51 @@
 //  Created by Camile Ancines on 17/11/21.
 //
 
-public struct Tweets: Codable {
-    var data: [DataContent]?
-    var meta: MetaContent?
+import Foundation
+
+struct TweetsResponse: Codable, Identifiable {
+    var id: UUID {
+        return UUID()
+    }
     
-    private enum CodingKeys: CodingKey {
-        case data, meta
+    struct Meta: Codable {
+        var oldestId: String
+        var newestId: String
+        var resultCount: Int
+        var nextToken: String?
+        
+        private enum CodingKeys: String, CodingKey {
+            case oldestId = "oldest_id", newestId = "newest_id", resultCount = "result_count", nextToken = "next_token"
+        }
+    }
+    
+    struct Includes: Codable {
+        var users: [User]?
+    }
+    
+    var data: [Tweet]?
+    var meta: Meta?
+    var includes: Includes?
+}
+
+public struct Tweet: Codable {
+    var id: String
+    var createdAt: Date
+    var authorId: String
+    var text: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case id, createdAt = "created_at", authorId = "author_id", text
     }
 }
 
-public struct DataContent: Codable {
-    var id: String?
-    var text: String?
+public struct User: Codable {
+    var id: String
+    var name: String?
+    var username: String
     
-    private enum CodingKeys: CodingKey {
-        case id, text
+    private enum CodingKeys: String, CodingKey {
+        case id, name, username
     }
 }
 
-public struct MetaContent: Codable {
-    var oldest_id: String?
-    var newest_id: String?
-    var result_count: Int?
-    var next_token: String?
-    
-    private enum CodingKeys: CodingKey {
-        case oldest_id, newest_id, result_count, next_token
-    }
-}

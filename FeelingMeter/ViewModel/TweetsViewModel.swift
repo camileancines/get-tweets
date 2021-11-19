@@ -9,33 +9,21 @@ import Foundation
 
 final class TweetsViewModel {
     
-    fileprivate let network: TweetsNetworkProtocol
-    private(set) var tweets: Tweets?
-    fileprivate let username: String
+    private(set) var tweets: TweetsResponse?
+    fileprivate let network: TweetsNetwork = TweetsNetwork()
+    var username: String = ""
     
-    init(network: TweetsNetworkProtocol = TweetsNetwork(), username: String) {
-        self.network = network
-        self.username = username
-    }
-}
-
-extension TweetsViewModel {
-    func fetchTweets(completion: @escaping (Swift.Result<Void, Error>) -> Void) {
-        network.fetchTweets(username: username) { [weak self] result in
+    func fetchUserId(completion: @escaping ((Swift.Result<String,Error>)) -> Void) {
+        network.requestUserId(username: username) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
-            case .success(let tweets):
-                self.tweets = tweets
+            case .success(let username):
+                self.username = username
                 
-                DispatchQueue.main.async {
-                    completion(.success(()))
-                }
                 
             case .failure(let error):
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
+                print(error)
             }
         }
     }
@@ -48,12 +36,12 @@ extension TweetsViewModel {
         let text: String
     }
     
-    func getTweetsText() -> [TweetsInfoViewModel] {
+    func getTweetsText(userId: String) -> [TweetsInfoViewModel] {
         guard let tweets = tweets?.data else { return [] }
         var tweetsInfos = [TweetsInfoViewModel]()
         
         for tweet in tweets {
-            tweetsInfos.append(TweetsInfoViewModel(id: tweet.id ?? "", text: tweet.text ?? ""))
+            tweetsInfos.append(TweetsInfoViewModel(id: tweet.id, text: tweet.text))
         }
         return tweetsInfos
     }
