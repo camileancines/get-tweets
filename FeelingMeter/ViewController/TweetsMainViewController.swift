@@ -41,7 +41,7 @@ final class TweetsMainViewController: UIViewController {
     
     lazy var headerSearchView: SearchUsernameView = {
        let searchView = SearchUsernameView()
-        searchView.delegate?.searchUsernameButtonAction(username: "")
+        searchView.delegate?.searchUsernameButtonAction(username: "") ///fetchTweets
         searchView.layer.cornerRadius = 14
         searchView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(searchView)
@@ -59,18 +59,19 @@ final class TweetsMainViewController: UIViewController {
         setupUI()
     }
     
-    func fetchUserId() {
-        viewModel.fetchUserId { [weak self] result in
+    func fetchTweets() {
+        viewModel.fetchTweets {
+            [weak self] result in
             guard let self = self else { return }
+            
+            switch result {
+            case .success():
+                self.setupTweets()
+            
+            case .failure():
+                self.showAlertView()
+            }
         }
-        
-        switch result {
-        case .success():
-            setupTweets()
-        }
-        
-        case .failure():
-            showAlertView()
     }
     
     func setupTweets() {
@@ -103,7 +104,7 @@ extension TweetsMainViewController {
     func showAlertView() {
         let alert = UIAlertController(title: "Ops!", message: "Não foi possível carregar os tuítes", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Tentar novamente", style: .default, handler: { action in
-            self.fetchUserId()
+            self.fetchTweets()
         }))
         alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: { action in
             self.navigationController?.popViewController(animated: true)

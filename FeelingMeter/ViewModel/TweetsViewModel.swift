@@ -12,8 +12,9 @@ final class TweetsViewModel {
     private(set) var tweets: TweetsResponse?
     fileprivate let network: TweetsNetwork = TweetsNetwork()
     var username: String = ""
+    var userId: String = ""
     
-    func fetchUserId(completion: @escaping ((Swift.Result<String,Error>)) -> Void) {
+    func fetchUserId(completion: @escaping ((Swift.Result<Void,Error>)) -> Void) {
         network.requestUserId(username: username) { [weak self] result in
             guard let self = self else { return }
             
@@ -21,6 +22,20 @@ final class TweetsViewModel {
             case .success(let username):
                 self.username = username
                 
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func fetchTweets(completion: @escaping ((Swift.Result<String,Error>)) -> Void) {
+        network.requestTweets(userId: userId) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let userId):
+                self.userId = userId
                 
             case .failure(let error):
                 print(error)

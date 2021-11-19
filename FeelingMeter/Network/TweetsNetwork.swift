@@ -8,6 +8,8 @@
 import Foundation
 
 final class TweetsNetwork {
+    
+    //MARK: - Get User ID from Username
     func requestUserId(username: String, completion: @escaping (String) -> Void) {
         guard let url = URL(string: "https://api.twitter.com/2/users/by/username/\(username)") else { return }
         
@@ -20,6 +22,24 @@ final class TweetsNetwork {
                     guard let response = try?
                            decoder.decode(User.self, from: data) else { return }
                     completion(response.id)
+                }
+            }
+        }
+    }
+    
+    //MARK: - Get Tweets from User ID
+    func requestTweets(userId: String, completion: @escaping (String) -> Void) {
+        guard let url = URL(string: "https://api.twitter.com/2/users/\(userId)/tweets?tweet.fields=created_at&expansions=author_id") else { return }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print(error)
+            } else {
+                if let data = data {
+                    let decoder = JSONDecoder()
+                    guard let response = try?
+                           decoder.decode(Tweet.self, from: data) else { return }
+                    completion(response.text)
                 }
             }
         }
