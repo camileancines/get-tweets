@@ -9,36 +9,10 @@ import Foundation
 
 final class TweetsViewModel {
     
-    fileprivate let network: TweetsNetworkProtocol
-    private(set) var tweets: Tweets?
-    fileprivate let username: String
-    
-    init(network: TweetsNetworkProtocol = TweetsNetwork(), username: String) {
-        self.network = network
-        self.username = username
-    }
-}
+    private(set) var tweets: TweetsResponse?
+    fileprivate let username: String = ""
+    let network: TweetsNetwork = TweetsNetwork()
 
-extension TweetsViewModel {
-    func fetchTweets(completion: @escaping (Swift.Result<Void, Error>) -> Void) {
-        network.fetchTweets(username: username) { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let tweets):
-                self.tweets = tweets
-                
-                DispatchQueue.main.async {
-                    completion(.success(()))
-                }
-                
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-            }
-        }
-    }
 }
 
 extension TweetsViewModel {
@@ -48,12 +22,12 @@ extension TweetsViewModel {
         let text: String
     }
     
-    func getTweetsText() -> [TweetsInfoViewModel] {
+    func getTweetsText(userId: String) -> [TweetsInfoViewModel] {
         guard let tweets = tweets?.data else { return [] }
         var tweetsInfos = [TweetsInfoViewModel]()
         
         for tweet in tweets {
-            tweetsInfos.append(TweetsInfoViewModel(id: tweet.id ?? "", text: tweet.text ?? ""))
+            tweetsInfos.append(TweetsInfoViewModel(id: tweet.id, text: tweet.text))
         }
         return tweetsInfos
     }

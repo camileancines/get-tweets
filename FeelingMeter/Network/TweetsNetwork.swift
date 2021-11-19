@@ -7,76 +7,111 @@
 
 import Foundation
 
-protocol TweetsNetworkProtocol {
-    func fetchTweets(username: String, completion: @escaping(Swift.Result<Tweets, Error>) -> Void)
+protocol RequestUserDelegate: AnyObject {
+    func didReceiveUserData(username: String)
 }
 
-final class TweetsNetwork: TweetsNetworkProtocol {
-    func fetchTweets(username: String, completion: @escaping (Swift.Result<Tweets, Error>) -> Void) {
-        do {
-            let data = Data(fakeData.utf8)
-            let value = try JSONDecoder().decode(Tweets.self, from: data)
-            completion(.success(value))
-        } catch {
-            completion(.failure(TweetsNetworkError.invalidData))
+final class TweetsNetwork {
+    
+    var userTweets: [Tweet] = []
+    weak var delegate: RequestUserDelegate?
+    
+    func requestUserId(username: String){
+        guard let url = URL(string: "https://api.twitter.com/2/users/by/username/\(username)") else { return }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print(error)
+            } else {
+                if let data = data {
+                    let decoder = JSONDecoder()
+                    guard let response = try?
+                           decoder.decode(User.self, from: data) else { return }
+                    self.delegate?.didReceiveUserData(username: response.id)
+                }
+            }
         }
     }
 }
-
-enum TweetsNetworkError: Error {
-    case invalidData
-}
-
 
 private let fakeData = """
 {
     "data": [
         {
-            "id": "1460996984911929349",
-            "text": "RT @outralilla: aí a gente bota um touro igual o de ny meu... bem imponente assim dourado meu... no meio da locomotiva do brasil chega me a…"
+            "id": "1459237768207298566",
+            "created_at": "2021-11-12T19:12:49.000Z",
+            "author_id": "1636590253",
+            "text": "Wow! These photos of the Dolomites are breathtaking, @ChristianSchafR. What a remarkable place. #ShotOniPhone13Pro 🏔 https://t.co/GIHhCkQI33"
         },
         {
-            "id": "1460977500562071564",
-            "text": "RT @jairmearrependi: Duas notícias sobre educação no governo Bolsonaro. \n\nEnquanto há alunos desmaiando de fome nas escolas, eles fazem caç…"
+            "id": "1458820905031798784",
+            "created_at": "2021-11-11T15:36:21.000Z",
+            "author_id": "1636590253",
+            "text": "Grateful today and always for the dedication and service of our veterans and their families, and the invaluable experience they bring long after they have left the military, including here at Apple. #VeteransDay https://t.co/9cQv6aYTy5"
         },
         {
-            "id": "1460956440101855233",
-            "text": "RT @sound3vision: Pior é o idiota achando que tá sendo muito inteligente em falar isso, essa carinha deslumbrada de quem acha que tá ensina…"
+            "id": "1458596765725126657",
+            "created_at": "2021-11-11T00:45:43.000Z",
+            "author_id": "1636590253",
+            "text": "Small businesses are an essential part of our economy, and we’re glad to help them manage the life cycle of all their Apple devices in a safe and secure way with Apple Business Essentials. https://t.co/UCu93PKHEz"
         },
         {
-            "id": "1460956266923188224",
-            "text": "RT @Cecillia: \"Eu fiquei realmente sensibilizada por essa situação\", conta a professora. \"Por que é isso: a fome. Uma fome que a criança nã…"
+            "id": "1458549983032971264",
+            "created_at": "2021-11-10T21:39:49.000Z",
+            "author_id": "1636590253",
+            "text": "Célébrons les 40 ans d'Apple en France! À chaque visite, je suis inspiré par la dynamique et très créative communauté d'artistes et de développeurs. Merci à nos équipes, à nos clients et aux communautés avec lesquelles nous sommes heureux de collaborer. https://t.co/ik8bmYCZgg"
         },
         {
-            "id": "1460956187776720899",
-            "text": "RT @VictorFerreira: O Touro de Ouro da Bolsa de Valores não durou um dia intacto. Amanheceu hoje com um lambe-lambe cravado no lombo: FOME…"
+            "id": "1458549982164762625",
+            "created_at": "2021-11-10T21:39:48.000Z",
+            "author_id": "1636590253",
+            "text": "Celebrating 40 years of Apple in France! Every time I visit, I come away inspired by the vibrant and deeply creative community of artists and developers. Thank you to our local teams, our customers, and to the many communities we are grateful to collaborate with."
         },
         {
-            "id": "1460817112948260865",
-            "text": "#MasterChefBR pode jogar no lixo que tá podre."
+            "id": "1458244993953394702",
+            "created_at": "2021-11-10T01:27:54.000Z",
+            "author_id": "1636590253",
+            "text": "@Malala @malinfezehai Congratulations to you and Asser! Wishing you all the best as you begin your new life together."
         },
         {
-            "id": "1460722358763892736",
-            "text": "RT @demori: Alguns celerados espalharam a mentira que \"Búzios controlou a covid com tratamento preventivo e não fechou nada\". A verdade: a…"
+            "id": "1456075201276383236",
+            "created_at": "2021-11-04T01:45:55.000Z",
+            "author_id": "1636590253",
+            "text": "Wishing a happy and safe Diwali to all those celebrating around the world. May the Festival of Lights fill your home with happiness and health. Stunning #ShotOniPhone13ProMax photos by @coffeekarma. https://t.co/09O2GkMcMN"
         },
         {
-            "id": "1460714460583284739",
-            "text": "RT @ibere: O Elon Musk disse que doaria 6 bilhões se a ONU explicasse como eles acabariam com a fome com esse dinheiro. A ONU foi lá e truc…"
+            "id": "1455724138656452612",
+            "created_at": "2021-11-03T02:30:55.000Z",
+            "author_id": "1636590253",
+            "text": "Apple is joining the First Movers Coalition that will help advance a greener future and a healthier and more equitable world. There has never been a more urgent time to come together in the fight for our planet. #COP26 https://t.co/KJ1lWtd9bp"
         },
         {
-            "id": "1460713711082033165",
-            "text": "RT @BiodiversidadeB: Fio ▪️ A Amazônia já foi lar de gigantes, como por exemplo, uma tartaruga de 4 metros de comprimento, um jacaré com ma…"
+            "id": "1454913732178427909",
+            "created_at": "2021-10-31T20:50:39.000Z",
+            "author_id": "1636590253",
+            "text": "Happy Halloween! Pretty great costume, @MrsKylieCurtis! What do you think, @TedLasso? https://t.co/EYuyF5YsrB"
         },
         {
-            "id": "1460639218334638087",
-            "text": "RT @sound3vision: ATENÇAO se a Yasmin Brunet falar \"tudo muito dark\" teremos sorteio de 01 camiseta Sounds (entre os RT)\n\nhttps://t.co/vKXk…"
+            "id": "1454249966629580800",
+            "created_at": "2021-10-30T00:53:05.000Z",
+            "author_id": "1636590253",
+            "text": "@Canoopsy Amazing wallpaper! 👏"
         }
     ],
+    "includes": {
+        "users": [
+            {
+                "id": "1636590253",
+                "name": "Tim Cook",
+                "username": "tim_cook"
+            }
+        ]
+    },
     "meta": {
-        "oldest_id": "1460639218334638087",
-        "newest_id": "1460996984911929349",
+        "oldest_id": "1454249966629580800",
+        "newest_id": "1459237768207298566",
         "result_count": 10,
-        "next_token": "7140dibdnow9c7btw3z3al4atdwn8f8yur7whebarrlfb"
+        "next_token": "7140dibdnow9c7btw3z2vo02dgvorqv5xr25j9tej0ai8"
     }
 }
 """
