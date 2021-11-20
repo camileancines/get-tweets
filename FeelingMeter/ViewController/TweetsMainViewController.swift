@@ -41,7 +41,7 @@ final class TweetsMainViewController: UIViewController {
     
     lazy var headerSearchView: SearchUsernameView = {
        let searchView = SearchUsernameView()
-        searchView.delegate?.searchUsernameButtonAction(username: "") ///fetchTweets
+        searchView.delegate?.searchUsernameButtonAction(username: searchView.usernameTextView.text)
         searchView.layer.cornerRadius = 14
         searchView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(searchView)
